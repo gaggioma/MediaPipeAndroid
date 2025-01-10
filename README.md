@@ -19,4 +19,4 @@ Click to view video result
 ## Updates
 
 - 10/01/2025 included Rock✊ Paper🖐️ Scissor✌️ game 😎
-  [![Watch the video](https://img.youtube.com/vi/ACZ2eCaLDXo/maxresdefault.jpg)](https://youtube.com/shorts/ACZ2eCaLDXo)
+  [![Watch the video](https://img.youtube.com/vi/ACZ2eCaLDXo/maxresdefault.jpg)](https://youtu.be/ACZ2eCaLDXo)
