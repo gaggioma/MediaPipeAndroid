@@ -5,7 +5,6 @@ import com.google.mediapipe.tasks.vision.gesturerecognizer.GestureRecognizerResu
 
 data class GestureResult(
     var inputImage: Bitmap? = null,
-    var imageRotation: Int = 0,
     var results: MutableList<GestureRecognizerResult> = ArrayList(),
     var inferenceTime: Long = 0,
     var inputImageHeight: Int = 0,

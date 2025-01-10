@@ -15,3 +15,8 @@ Click to view video result
 
 [![Watch the video](https://img.youtube.com/vi/K6HKXiNspGU/maxresdefault.jpg)](https://youtube.com/shorts/K6HKXiNspGU)
 [![Watch the video](https://img.youtube.com/vi/zpIXP_pxjUU/maxresdefault.jpg)](https://youtube.com/shorts/zpIXP_pxjUU)
+
+## Updates
+
+- 10/01/2025 included Rock✊ Paper🖐️ Scissor✌️ game 😎
+  [![Watch the video](https://img.youtube.com/vi/ACZ2eCaLDXo/maxresdefault.jpg)](https://youtube.com/shorts/ACZ2eCaLDXo)

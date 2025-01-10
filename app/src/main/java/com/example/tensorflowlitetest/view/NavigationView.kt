@@ -20,7 +20,7 @@ fun NavigationView() {
     val vmmediapipe: CameraViewModelMediaPipe = hiltViewModel()
 
     //Nav host
-    NavHost(navController = navController, startDestination = "videoViewMediaPipe") {
+    NavHost(navController = navController, startDestination = "gestureView") {
 
         composable("objectDetectionViewMediaPipe") {
             ObjectDetectionViewMediaPipe(navController = navController, vm = vmmediapipe)

@@ -2,7 +2,6 @@ package com.example.tensorflowlitetest.view.mediaPipe.viewModel
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.tensorflowlitetest.utils.mediaPipe.GestureRecognizerHelper
 import com.example.tensorflowlitetest.view.mediaPipe.viewModel.models.GestureConfig
@@ -15,11 +14,11 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class GestureViewModel @Inject constructor(
+class GestureRightViewModel @Inject constructor(
     @ApplicationContext val context: Context
 ): ViewModel(), GestureRecognizerHelper.GestureRecognizerListener {
 
-    val TAG = "GestureViewModel"
+    val TAG = "GestureRightViewModel"
 
     //Result state
     private val _uiState = MutableStateFlow(GestureResult())
@@ -31,7 +30,6 @@ class GestureViewModel @Inject constructor(
 
     //Init gesture on model view creation
     init {
-        setSeed()
         initGesture()
     }
 
@@ -45,21 +43,9 @@ class GestureViewModel @Inject constructor(
         _configState.value = copyState
     }
 
-    fun setSeed(){
-        //var copyState = _uiState.value.copy()
-        val rand = Math.random()
-        Log.d(TAG, "Model view id: $rand")
-    }
-
     fun setBitmapImage(image: Bitmap){
         val copyState = _uiState.value.copy()
         copyState.inputImage = image
-        _uiState.value = copyState
-    }
-
-    fun setImageRotation(degrees: Int){
-        var copyState = _uiState.value.copy()
-        copyState.imageRotation = degrees
         _uiState.value = copyState
     }
 

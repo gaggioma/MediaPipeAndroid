@@ -5,5 +5,5 @@ import com.google.mediapipe.tasks.vision.core.RunningMode
 
 data class GestureConfig(
     var config: GestureRecognizerHelper? = null,
-    var runningMode: RunningMode = RunningMode.LIVE_STREAM,
+    var runningMode: RunningMode =RunningMode.IMAGE, //RunningMode.LIVE_STREAM,
 )

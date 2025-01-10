@@ -250,7 +250,7 @@ class GestureRecognizerHelper(
 
     // Accepted a Bitmap and runs gesture recognizer inference on it to
     // return results back to the caller
-    fun recognizeImage(image: Bitmap): ResultBundle? {
+    fun recognizeImage(image: Bitmap, rotationDegree: Float): ResultBundle? {
         if (runningMode != RunningMode.IMAGE) {
             throw IllegalArgumentException(
                 "Attempting to call detectImage" +
@@ -258,23 +258,51 @@ class GestureRecognizerHelper(
             )
         }
 
+        val matrix = Matrix().apply {
+            // Rotate the frame received from the camera to be in the same direction as it'll be shown
+            postRotate(rotationDegree)
+
+            // flip image since we only support front camera
+            postScale(
+                -1f, 1f, image.width.toFloat(), image.height.toFloat()
+            )
+        }
+
+        // Rotate bitmap to match what our model expects
+        val rotatedBitmap = Bitmap.createBitmap(
+            image,
+            0,
+            0,
+            image.width,
+            image.height,
+            matrix,
+            true
+        )
+
+        inputImageBitmap = rotatedBitmap
 
         // Inference time is the difference between the system time at the
         // start and finish of the process
         val startTime = SystemClock.uptimeMillis()
 
         // Convert the input Bitmap object to an MPImage object to run inference
-        val mpImage = BitmapImageBuilder(image).build()
+        val mpImage = BitmapImageBuilder(rotatedBitmap).build()
 
         // Run gesture recognizer using MediaPipe Gesture Recognizer API
         gestureRecognizer?.recognize(mpImage)?.also { recognizerResult ->
             val inferenceTimeMs = SystemClock.uptimeMillis() - startTime
-            return ResultBundle(
+            gestureRecognizerListener?.onResults(
+                ResultBundle(
+                    listOf(recognizerResult), inferenceTimeMs, rotatedBitmap.height, rotatedBitmap.width
+                ),
+                inputImageBitmap!!
+            )
+            /*return ResultBundle(
                 listOf(recognizerResult),
                 inferenceTimeMs,
                 image.height,
                 image.width
-            )
+            )*/
         }
 
         // If gestureRecognizer?.recognize() returns null, this is likely an error. Returning null

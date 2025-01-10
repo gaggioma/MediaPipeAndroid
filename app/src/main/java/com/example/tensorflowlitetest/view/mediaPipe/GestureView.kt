@@ -20,7 +20,9 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.tensorflowlitetest.components.TopAppBarCustom
-import com.example.tensorflowlitetest.view.mediaPipe.viewModel.GestureViewModel
+import com.example.tensorflowlitetest.view.KeepScreenOn
+import com.example.tensorflowlitetest.view.mediaPipe.viewModel.GestureLeftViewModel
+import com.example.tensorflowlitetest.view.mediaPipe.viewModel.GestureRightViewModel
 import java.util.concurrent.Executors
 
 @Composable
@@ -31,12 +33,20 @@ fun GestureView(
     //Log tag
     val TAG = "GestureViewModel"
 
-    //View model
-    val vm:GestureViewModel = hiltViewModel()
+    //Keep screen on during app run
+    KeepScreenOn()
 
-    //Config state
-    val configState = vm.configState.collectAsState()
-    val gestureHelper = configState.value.config
+    //View model
+    val vmLeft: GestureLeftViewModel = hiltViewModel()
+    val vmRight: GestureRightViewModel = hiltViewModel()
+
+    //Config state left
+    val configStateLeft = vmLeft.configState.collectAsState()
+    val gestureHelperLeft = configStateLeft.value.config
+
+    //Config state right
+    val configStateRight = vmRight.configState.collectAsState()
+    val gestureHelperRight = configStateRight.value.config
 
     //Context
     val context = LocalContext.current
@@ -69,16 +79,20 @@ fun GestureView(
         //Convert ImageProxy into bitmap
         val imageBitmap : Bitmap = image.toBitmap()
 
+        //Left image
+        val leftBitmap = Bitmap.createBitmap(imageBitmap, 0, 0, imageBitmap.width/2, imageBitmap.height)
+
+        //Right image
+        val rightBitmap = Bitmap.createBitmap(imageBitmap, imageBitmap.width/2, 0, imageBitmap.width/2, imageBitmap.height)
+
         //Save image into model view
         //vm.setBitmapImage(imageBitmap)
 
-        //Image rotation
-        vm.setImageRotation(image.imageInfo.rotationDegrees)
-
         //Gesture detection
-        if(gestureHelper !== null) {
-            vm.updateFrameNumber()
-            gestureHelper.recognizeLiveStream(image)
+        if(gestureHelperLeft !== null && gestureHelperRight != null) {
+            //gestureHelperLeft.recognizeLiveStream(image)
+            gestureHelperLeft.recognizeImage(leftBitmap, image.imageInfo.rotationDegrees.toFloat())
+            gestureHelperRight.recognizeImage(rightBitmap, image.imageInfo.rotationDegrees.toFloat())
         }
         // after done, release the ImageProxy object
         image.close()
@@ -103,9 +117,7 @@ fun GestureView(
                     .alpha(0f)
             )
 
-            GestureDetectionView(
-                //vm = vm
-            )
+            GestureDetectionView()
         }
     }
 }
